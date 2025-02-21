@@ -11,6 +11,7 @@ import Settings from "./pages/Settings";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import ApplicationTracker from "./pages/ApplicationTracker";
 import Resources from "./pages/Resources";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -18,8 +19,9 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <Layout>
-        <Routes>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route element={<Layout />}>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/courses" element={<Courses />} />
@@ -30,8 +32,8 @@ const App = () => (
           <Route path="/application-tracker" element={<ApplicationTracker />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
     </BrowserRouter>
   </QueryClientProvider>
 );
