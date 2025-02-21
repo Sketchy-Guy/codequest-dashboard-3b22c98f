@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Github, Google, Twitter } from "lucide-react";
+import { GithubIcon, Mail, Share2 } from "lucide-react";
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -94,13 +94,13 @@ const Login = () => {
 
               <div className="grid grid-cols-3 gap-3">
                 <Button variant="outline" className="w-full">
-                  <Google className="h-5 w-5" />
+                  <Mail className="h-5 w-5" />
                 </Button>
                 <Button variant="outline" className="w-full">
-                  <Github className="h-5 w-5" />
+                  <GithubIcon className="h-5 w-5" />
                 </Button>
                 <Button variant="outline" className="w-full">
-                  <Twitter className="h-5 w-5" />
+                  <Share2 className="h-5 w-5" />
                 </Button>
               </div>
 
