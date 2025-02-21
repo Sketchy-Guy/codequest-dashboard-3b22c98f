@@ -8,6 +8,9 @@ import Courses from "./pages/Courses";
 import Hackathons from "./pages/Hackathons";
 import Practice from "./pages/Practice";
 import Settings from "./pages/Settings";
+import ResumeBuilder from "./pages/ResumeBuilder";
+import ApplicationTracker from "./pages/ApplicationTracker";
+import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +26,9 @@ const App = () => (
           <Route path="/hackathons" element={<Hackathons />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/resume-builder" element={<ResumeBuilder />} />
+          <Route path="/application-tracker" element={<ApplicationTracker />} />
+          <Route path="/resources" element={<Resources />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
