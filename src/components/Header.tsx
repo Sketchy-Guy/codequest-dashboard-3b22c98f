@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -37,12 +38,8 @@ import {
 
 export const Header = () => {
   const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      return savedTheme;
-    }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'light';
     }
     return 'light';
   });
@@ -51,13 +48,29 @@ export const Header = () => {
   const location = useLocation();
 
   useEffect(() => {
+    // Remove both classes first
     document.documentElement.classList.remove('light', 'dark');
+    // Add the current theme class
     document.documentElement.classList.add(theme);
+    // Store the theme preference
     localStorage.setItem('theme', theme);
+    // Set the color scheme meta tag
+    document.documentElement.style.colorScheme = theme;
   }, [theme]);
 
+  // Initialize theme on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+    }
+  }, []);
+
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
   };
 
   const navItems = [
