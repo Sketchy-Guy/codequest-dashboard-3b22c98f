@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -37,23 +36,29 @@ import {
 } from "@/components/ui/sheet";
 
 export const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return document.documentElement.classList.contains('dark');
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      return savedTheme;
+    }
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
   });
+  
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark");
-    localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
-  };
-
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-    setIsDarkMode(savedTheme === 'dark');
-  }, []);
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
 
   const navItems = [
     { icon: GraduationCap, label: "Learn", href: "/courses" },
@@ -67,7 +72,6 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-gray-900/80">
       <div className="container flex h-16 items-center justify-between px-4">
-        {/* Logo and Desktop Navigation */}
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center space-x-2">
             <img 
@@ -80,7 +84,6 @@ export const Header = () => {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-6">
             {navItems.slice(0, 3).map((item) => (
               <Link
@@ -117,15 +120,15 @@ export const Header = () => {
           </nav>
         </div>
 
-        {/* Right Side Actions */}
         <div className="flex items-center space-x-2 sm:space-x-4">
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
             className="h-9 w-9 text-gray-700 dark:text-gray-200"
+            title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
           >
-            {isDarkMode ? (
+            {theme === 'dark' ? (
               <Sun className="h-4 w-4" />
             ) : (
               <Moon className="h-4 w-4" />
@@ -163,7 +166,6 @@ export const Header = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Mobile Navigation - Moved to right */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon" className="h-9 w-9 text-gray-700 dark:text-gray-200">
